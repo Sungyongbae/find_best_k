@@ -35,14 +35,16 @@ def get_hpr(k):
     df.loc[cond].to_excel("backtesting_k=%.1f.xlsx" %(k))
     result = df.iloc[-1]['hpr']
     return result
-ks = []
-k_list = [0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9]
-for k in k_list:
-    hpr = get_hpr(k)
-    ks.append(hpr)
-hpr = pd.DataFrame({"hpr": ks})
-k_data = pd.DataFrame({"k": k_list})
-sum = pd.concat([k_data, hpr], axis =1)
-final=sum.sort_values(by = "hpr", ascending=False)
-best_k = final.iloc[:10]['k'].values.tolist()[0]
-print(best_k)
+def find_best_k():
+    ks = []
+    k_list = [0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9]
+    for k in k_list:
+        hpr = get_hpr(k)
+        ks.append(hpr)
+    hpr = pd.DataFrame({"hpr": ks})
+    k_data = pd.DataFrame({"k": k_list})
+    sum = pd.concat([k_data, hpr], axis =1)
+    final=sum.sort_values(by = "hpr", ascending=False)
+    best_k = final.iloc[:10]['k'].values.tolist()[0]
+    return best_k
+print(find_best_k())
